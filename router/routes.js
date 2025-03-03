@@ -8,7 +8,7 @@ import {
   findByid ,
   totalproduct
 } from "../control/prdctCtrl";
-const uploads = require("../multerfiles/uploads");
+import uploads from "../multerfiles/uploads";
 
 const router = express.Router();
 
