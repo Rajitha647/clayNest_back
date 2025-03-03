@@ -7,8 +7,8 @@ import {
   getproductbycategory, 
   findByid ,
   totalproduct
-} from "../control/prdctCtrl";
-import uploads from "../multerfiles/uploads";
+} from "../control/prdctCtrl.js";
+import uploads from "../multerfiles/uploads.js";
 
 const router = express.Router();
 
