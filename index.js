@@ -22,7 +22,7 @@ const MONGO_URI = "mongodb+srv://rajitha:rajitha123@cluster0.gdvdb.mongodb.net/?
 
 // Connect to MongoDB Atlas
 mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(MONGO_URI)
   .then(() => console.log("✅ MongoDB Atlas connected successfully."))
   .catch((error) => {
     console.error("❌ MongoDB connection error:", error.message);
