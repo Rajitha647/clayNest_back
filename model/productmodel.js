@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {usermodel} from './usermodel.js';
+import usermodel from './usermodel';
 const productSchema = new mongoose.Schema({
    userid:{type:mongoose.Schema.Types.ObjectId,ref:usermodel},
     title: {type:String},
