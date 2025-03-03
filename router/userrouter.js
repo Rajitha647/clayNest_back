@@ -7,4 +7,5 @@ user.post('/register', register);
 
 user.post('/login', login);
 user.get('/totaluser',totalUser)
-module.exports = user;
+
+export default router;

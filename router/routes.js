@@ -30,4 +30,4 @@ router.delete("/deleteproducts/:id", deleteproducts);
 // Route to update a product
 router.put("/updateproducts/:id", uploads.single("image"), updateproducts);
 
-module.exports = router;
+export default router;
