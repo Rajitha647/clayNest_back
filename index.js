@@ -1,24 +1,28 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const path = require("path");
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url"; // Needed to fix __dirname in ES modules
 
-const products = require("./router/routes");
-const user = require("./router/userrouter");
-const cart = require("./router/cartrouter");
-const order = require("./router/orderrouter");
-const payment = require("./router/payrouter");
-
-const Razorpay = require("razorpay");
+import products from "./router/routes.js";
+import user from "./router/userrouter.js";
+import cart from "./router/cartrouter.js";
+import order from "./router/orderrouter.js";
+import payment from "./router/payrouter.js";
+import Razorpay from "razorpay";
 
 const app = express();
+
+// Fix __dirname in ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // MongoDB Atlas URI (Use your actual credentials)
 const MONGO_URI = "mongodb+srv://rajitha:rajitha123@cluster0.gdvdb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // Connect to MongoDB Atlas
 mongoose
-  .connect(MONGO_URI)
+  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("✅ MongoDB Atlas connected successfully."))
   .catch((error) => {
     console.error("❌ MongoDB connection error:", error.message);
@@ -37,16 +41,6 @@ app.use("/user", user);
 app.use("/cart", cart);
 app.use("/order", order);
 app.use("/payment", payment);
-
-// Serve React Frontend (After Building)
-const __dirname = path.resolve(); // Required for ES modules
-
-app.use(express.static(path.join(__dirname, "client/build"))); 
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build", "index.html"));
-});
-
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
