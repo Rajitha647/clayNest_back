@@ -8,4 +8,4 @@ user.post('/register', register);
 user.post('/login', login);
 user.get('/totaluser',totalUser)
 
-export default router;
+export default user;
