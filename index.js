@@ -39,10 +39,14 @@ app.use("/order", order);
 app.use("/payment", payment);
 
 // Serve React Frontend (After Building)
-app.use(express.static(path.join(__dirname, "client", "build")));
+const __dirname = path.resolve(); // Required for ES modules
+
+app.use(express.static(path.join(__dirname, "client/build"))); 
+
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
+
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
