@@ -1,22 +1,23 @@
-const express = require('express');
-const router = express.Router();
-const {
+import express from "express";
+import {
     placeOrder,
     handlePaymentSuccess,
     placeCODOrder,
     getUserOrders,
-} = require('../control/orderCtrl');
+} from "../control/orderCtrl.js"; // Ensure the file extension is .js for ES Modules
+
+const router = express.Router();
 
 // Place a new order (Razorpay or COD)
-router.post('/placeorder', placeOrder);
+router.post("/placeorder", placeOrder);
 
 // Handle Razorpay payment success
-router.post('/paymentsuccess', handlePaymentSuccess);
+router.post("/paymentsuccess", handlePaymentSuccess);
 
 // Place a COD order
-router.post('/cod', placeCODOrder);
+router.post("/cod", placeCODOrder);
 
 // Get orders for a specific user
-router.get('/getorders/:userId', getUserOrders);
+router.get("/getorders/:userId", getUserOrders);
 
-module.exports = router;
+export default router;

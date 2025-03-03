@@ -1,6 +1,11 @@
-const productmodel = require("../model/productmodel");
-const fs = require('fs');
-const path = require('path');
+import productmodel from '../model/productmodel.js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const validateProductData = ({ title, description, price, rating }) => {
   if (!title || !description || !price || !rating) {
@@ -12,18 +17,18 @@ const validateProductData = ({ title, description, price, rating }) => {
   if (isNaN(rating) || rating < 0 || rating > 5) {
     return "Rating must be between 0 and 5.";
   }
-  return null; 
+  return null;
 };
 
-const addproduct = async (req, res) => {
-  const { title, description, price, rating,category,stock } = req.body;
+export const addproduct = async (req, res) => {
+  const { title, description, price, rating, category, stock } = req.body;
   const userid = req.headers.userid;
 
   if (!req.file) {
     return res.status(400).json({ status: 0, msg: "File upload failed" });
   }
 
-  const validationError = validateProductData({ title, description, price, rating ,category,stock});
+  const validationError = validateProductData({ title, description, price, rating, category, stock });
   if (validationError) {
     return res.status(400).json({ status: 0, msg: validationError });
   }
@@ -47,24 +52,24 @@ const addproduct = async (req, res) => {
   }
 };
 
-const getProducts = async (req, res) => {
+export const getProducts = async (req, res) => {
   try {
-    const products = await productmodel.find();  
-    res.json({ status: 1, data: products });  
+    const products = await productmodel.find();
+    res.json({ status: 1, data: products });
   } catch (error) {
     console.error("Error fetching products:", error);
     res.status(500).json({ status: 0, msg: "Failed to fetch products", error });
   }
 };
 
-const getProductById = async (req, res) => {
+export const getProductById = async (req, res) => {
   try {
     const product = await productmodel.findById(req.params.idno);
-    
+
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    
+
     res.status(200).json(product);
   } catch (error) {
     console.error('Error fetching product:', error);
@@ -72,24 +77,23 @@ const getProductById = async (req, res) => {
   }
 };
 
-const getproductbycategory=async (req, res) => {
+export const getproductbycategory = async (req, res) => {
   const { category } = req.params;
   try {
-      const products = await productmodel.find({ category: category });
-      if (products.length === 0) {
-          return res.status(404).json({ message: 'No products found in this category' });
-      }
-      res.status(200).json(products);
+    const products = await productmodel.find({ category: category });
+    if (products.length === 0) {
+      return res.status(404).json({ message: 'No products found in this category' });
+    }
+    res.status(200).json(products);
   } catch (error) {
-      console.error('Error fetching products by category:', error);
-      res.status(500).json({ message: 'Failed to fetch products by category' });
+    console.error('Error fetching products by category:', error);
+    res.status(500).json({ message: 'Failed to fetch products by category' });
   }
 };
 
-
-const deleteproducts = async (req, res) => {
-  const productId = req.params.id;  // Capture productId from URL params
-  console.log("Received product ID:", productId); // Log the productId
+export const deleteproducts = async (req, res) => {
+  const productId = req.params.id;
+  console.log("Received product ID:", productId);
 
   if (!productId) {
     return res.status(400).json({ status: 0, message: "Product ID is required." });
@@ -108,27 +112,16 @@ const deleteproducts = async (req, res) => {
   }
 };
 
-
-// const updateproducts=async(req,res)=>{
-//   const id=req.headers.idno;
-//   const {title,description,category,price,rating,stock}=req.body 
-//   await productmodel.updateOne({_id:id},{title,description,category,price,rating,stock})
-//   res.json({status:1,msg:"Data Updated"})
-// }
-
-
-const findByid = async (req, res) => {
+export const findByid = async (req, res) => {
   const { id } = req.params;
-  
+
   try {
-   
     const product = await productmodel.findById(id);
-    
+
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    
     res.json(product);
   } catch (error) {
     console.error("Error fetching product:", error);
@@ -136,19 +129,17 @@ const findByid = async (req, res) => {
   }
 };
 
-
-const updateproducts = async (req, res) => {
+export const updateproducts = async (req, res) => {
   const { id } = req.params;
   const { title, description, category, price, rating, stock } = req.body;
-  
+
   try {
     const product = await productmodel.findById(id);
-    
+
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    
     product.title = title || product.title;
     product.description = description || product.description;
     product.category = category || product.category;
@@ -157,9 +148,9 @@ const updateproducts = async (req, res) => {
     product.stock = stock || product.stock;
 
     if (req.file) {
-     
-      if (product.image && fs.existsSync(path.join(__dirname, '..', product.image))) {
-        fs.unlinkSync(path.join(__dirname, '..', product.image));
+      const imagePath = path.join(__dirname, '..', product.image);
+      if (product.image && fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
       }
 
       product.image = req.file.path.replace('public', '');
@@ -173,8 +164,7 @@ const updateproducts = async (req, res) => {
   }
 };
 
-
-const totalproduct=async (req, res) => {
+export const totalproduct = async (req, res) => {
   try {
     const totalProducts = await productmodel.countDocuments();
     res.json({ total: totalProducts });
@@ -182,16 +172,4 @@ const totalproduct=async (req, res) => {
     console.error("Error fetching total products:", error);
     res.status(500).json({ message: "Error fetching total products" });
   }
-}
-
-
-module.exports = {
-  addproduct,
-  getProducts,
-  getProductById,
-  deleteproducts,
-  updateproducts,
-  getproductbycategory,
-  findByid,
-  totalproduct
 };

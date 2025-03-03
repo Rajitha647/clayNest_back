@@ -1,4 +1,4 @@
-const JWT = require("jsonwebtoken");
+import JWT from "jsonwebtoken";
 
 const SECRET_KEY = process.env.JWT_SECRET || "kh56dfgj";
 
@@ -14,10 +14,8 @@ const verifyToken = (req, res, next) => {
     return res.status(401).json({ message: "No token provided or invalid token format" });
   }
 
-  
   const token = authHeader.split(" ")[1];
 
-  
   JWT.verify(token, SECRET_KEY, (err, decoded) => {
     if (err) {
       console.error("Token verification failed:", err.message);
@@ -29,7 +27,4 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-module.exports = {
-  createToken,
-  verifyToken,
-};
+export { createToken, verifyToken };

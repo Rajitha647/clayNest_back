@@ -1,15 +1,15 @@
-const Razorpay = require('razorpay');
-const crypto = require('crypto');
-const { razorpayInstance } = require('../payment/razorpay');
+import Razorpay from 'razorpay';
+import crypto from 'crypto';
+import { razorpayInstance } from '../payment/razorpay.js';
 
 // Create an order
-const createOrder = async (req, res) => {
+export const createOrder = async (req, res) => {
   try {
     const { amount, currency } = req.body;
 
     const options = {
-      amount: amount, // Amount in paise
-      currency: currency,
+      amount, // Amount in paise
+      currency,
       receipt: `receipt_${Date.now()}`,
     };
 
@@ -23,7 +23,7 @@ const createOrder = async (req, res) => {
 };
 
 // Verify payment
-const verifyPayment = (req, res) => {
+export const verifyPayment = (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
@@ -43,5 +43,3 @@ const verifyPayment = (req, res) => {
     res.status(500).json({ success: false, message: 'Failed to verify payment' });
   }
 };
-
-module.exports = { createOrder, verifyPayment };

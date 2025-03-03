@@ -1,8 +1,9 @@
-const express = require('express');
-const { createOrder, verifyPayment } = require('../control/payCtrl');
+import express from "express";
+import { createOrder, verifyPayment } from "../control/payCtrl.js"; // Ensure the file extension is included for ES Modules
+
 const router = express.Router();
 
+router.post("/createorder", createOrder);
+router.post("/verify", verifyPayment);
 
-router.post('/createorder', createOrder);
-router.post('/verify', verifyPayment);
-module.exports = router;
+export default router;

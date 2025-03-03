@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const user = express.Router();
-const { register, login ,totalUser} = require('../control/userCtrl');
+import { register, login ,totalUser} from '../control/userCtrl';
 
 // Removed profile picture logic
 user.post('/register', register);

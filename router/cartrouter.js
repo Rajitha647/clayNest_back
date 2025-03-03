@@ -1,5 +1,5 @@
-const express = require("express");
-const Cart = require("../model/cartmodel");
+import express from "express";
+import Cart from "../model/cartmodel";
 const router = express.Router();
 
 // Add to Cart

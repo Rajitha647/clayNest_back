@@ -1,5 +1,5 @@
-const express = require("express");
-const { 
+import express from "express";
+import { 
   addproduct, 
   getProducts, 
   deleteproducts, 
@@ -7,7 +7,7 @@ const {
   getproductbycategory, 
   findByid ,
   totalproduct
-} = require("../control/prdctCtrl");
+} from "../control/prdctCtrl";
 const uploads = require("../multerfiles/uploads");
 
 const router = express.Router();
