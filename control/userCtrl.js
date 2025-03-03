@@ -1,6 +1,6 @@
-import usermodel from '../model/usermodel';
+import usermodel from '../model/usermodel.js';
 import bcrypt from "bcryptjs";
-import { createToken } from '../middleware/token';
+import { createToken } from '../middleware/token.js';
 
 const totalUser = async (req, res) => {
     try {
