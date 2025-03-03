@@ -1,6 +1,6 @@
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
-import { razorpayInstance } from '../payment/razorpay.js';
+import razorpayInstance  from '../payment/razorpay.js';
 
 // Create an order
 export const createOrder = async (req, res) => {
