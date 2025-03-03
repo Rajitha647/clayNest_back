@@ -9,4 +9,6 @@ const CartSchema = new mongoose.Schema({
   image: { type: String, required: true },
 });
 
-module.exports = mongoose.model("Cart", CartSchema);
+const CartModel = mongoose.model("Cart", CartSchema);
+
+export default CartModel; // ✅ Correct ES module export

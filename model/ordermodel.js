@@ -55,4 +55,4 @@ const OrderSchema = new mongoose.Schema(
 
 // Export the model
 const Order = mongoose.model('Order', OrderSchema);
-module.exports = Order;
+export default Order;
