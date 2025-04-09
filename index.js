@@ -30,7 +30,10 @@ mongoose
   });
 
 // Middleware
-app.use(cors({ origin: ["https://clay-nest.onrender.com"] })); // Replace with your frontend URL
+app.use(cors({ origin: [ "http://localhost:5005","https://clay-nest.onrender.com"],  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+
+ })); // Replace with your frontend URL
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads"));
